@@ -1,0 +1,55 @@
+
+html {
+    height: 100%;
+    overflow: auto;
+}
+
+body {
+    /* background-color: #f4f7f9; */
+   
+    
+}
+
+main {
+    padding-top: 3.25rem;
+    background-color: white;
+    height: 100vh;
+    
+}
+
+.nav {
+    left: 0;
+    position: fixed;
+    right: 0;
+    z-index: 30;
+    background-color: white;
+    box-shadow: rgba(116, 129, 141, 0.1) 0px 3px 8px 0px;
+    border-bottom: 1px solid rgb(212, 218, 223);
+}
+
+.content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.v-section {
+    padding: 1.5rem 0rem !important;
+}
+
+
+/* overrides */
+
+
+.label {
+    font-weight: 500 !important;
+    color: #555555 !important;
+    letter-spacing: 0.04em !important; 
+}
+
+.button.is-primary{
+    background-color: #3488ce !important;
+}
+
+.ql-editor{
+    min-height: 100px;
+}
