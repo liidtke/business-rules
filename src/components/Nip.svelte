@@ -22,7 +22,7 @@
             mask: "00000",
         };
         mask = IMask(element, maskOptions);
-        if(value){
+        if(value !== null && value !== undefined){
             mask.typedValue = value.toString();
         }
         mask.on("accept", changed);

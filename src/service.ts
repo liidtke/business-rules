@@ -1,17 +1,37 @@
 import { Result } from './result';
 import config from "./config";
-import { canWrite, isAuthenticated, user } from "./store";
+import { canWrite, isAuthenticated, user, token } from "./store";
+
 export class Service {
 
   api: string;
   canWrite: boolean;
+  bearerToken:string;
+  headers:any;
 
   constructor() {
     this.api = config.server;
 
-    const unsubscribe = canWrite.subscribe(value => {
+    const writeSub = canWrite.subscribe(value => {
       this.canWrite = value;
     });
+
+    const bearerTokenSub = token.subscribe(value => {
+      this.bearerToken = value;
+      this.headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `bearer ${value}`
+      }
+    });
+
+  
+  }
+
+  //temporary
+  async init(){
+    if(!this.bearerToken){
+      return new Promise( resolve => setTimeout(resolve, 2000));
+    }
   }
 
   getStatus() {
@@ -25,7 +45,9 @@ export class Service {
 
 
   async getAreas() {
-    let request = await fetch(this.api + 'areas');
+    let request = await fetch(this.api + 'areas', {
+      headers: this.headers,
+    });
     let response = await request.json();
     return response;
   }
@@ -47,9 +69,7 @@ export class Service {
 
     const res: Response = await fetch(this.api + 'areas', {
       method: method,
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: this.headers,
       body: JSON.stringify(area)
     })
 
@@ -79,18 +99,13 @@ export class Service {
       res = await fetch(this.api + 'rules', {
         method: 'PUT',
         body: JSON.stringify(rule),
-        headers: {
-          'Content-Type': 'application/json'
-          // 'Content-Type': 'application/x-www-form-urlencoded',
-        },
+        headers: this.headers,
       });
     }
     else {
       res = await fetch(this.api + 'rules', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: this.headers,
         body: JSON.stringify(rule)
       })
     }

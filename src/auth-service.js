@@ -1,5 +1,5 @@
 import createAuth0Client from "@auth0/auth0-spa-js";
-import { user, isAuthenticated, popupOpen, canWrite } from "./store";
+import { user, isAuthenticated, popupOpen, canWrite, token } from "./store";
 import config from "./config";
 
 async function createClient() {
@@ -11,11 +11,38 @@ async function createClient() {
   return auth0Client;
 }
 
+//first thing on load
+async function init(auth0Client) {
+  const isAuth = await auth0Client.isAuthenticated()
+  isAuthenticated.set(isAuth);
+
+  if (!isAuth) {
+    return;
+  }
+
+  let loggedUser = await auth0Client.getUser();
+  user.set(loggedUser);
+
+  //todo check permissions
+  if (loggedUser) {
+    canWrite.set(loggedUser.email.includes('iatec'));
+  }
+
+  let tkn = await auth0Client.getIdTokenClaims();
+  console.log(tkn);
+  if (tkn) {
+    token.set(tkn.__raw);
+  }
+
+}
+
 async function loginWithPopup(client, options) {
   popupOpen.set(true);
   try {
     await client.loginWithPopup(options);
     isAuthenticated.set(true);
+
+
   } catch (e) {
     // eslint-disable-next-line
     //console.error(e);
@@ -31,7 +58,8 @@ function logout(client) {
 const auth = {
   createClient,
   loginWithPopup,
-  logout
+  logout,
+  init,
 };
 
 export default auth;

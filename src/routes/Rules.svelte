@@ -48,6 +48,8 @@
 
   //behavior
   onMount(async () => {
+    await service.init();
+    console.log('after init');
     areas = await service.getAreas();
     status = service.getStatus();
     if (params.id) {

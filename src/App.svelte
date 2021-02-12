@@ -9,13 +9,7 @@
 
 	onMount(async () => {
 		auth0Client = await auth.createClient();
-		isAuthenticated.set(await auth0Client.isAuthenticated());
-		
-		let loggedUser = await auth0Client.getUser(); 
-		user.set(loggedUser);
-		if(loggedUser){
-			canWrite.set(loggedUser.email.includes('iatec'));
-		}
+		await auth.init(auth0Client);
 	});
 
 	function login() {
