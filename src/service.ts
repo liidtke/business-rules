@@ -43,9 +43,24 @@ export class Service {
     ];
   }
 
-
   async getAreas() {
     let request = await fetch(this.api + 'areas', {
+      headers: this.headers,
+    });
+    let response = await request.json();
+    return response;
+  }
+
+  async getRule(id){
+    let request = await fetch(this.api + 'rules/' + id, {
+      headers: this.headers,
+    });
+    let response = await request.json();
+    return response;
+  }
+
+  async getRuleHistory(id){
+    let request = await fetch(this.api + 'rules/' + id + '/history/', {
       headers: this.headers,
     });
     let response = await request.json();
@@ -147,6 +162,10 @@ export class Service {
   }
 
 }
+
+const service = new Service();
+
+export default service;
 
 export interface IRule {
   id?: string;

@@ -31,10 +31,9 @@
   import Message from "../components/Message.svelte";
   import { warning, success } from "../components/toaster";
   import { onMount } from "svelte";
-  import { Service } from "../service";
+  import service from "../service";
 
   export let params = {};
-  const service: Service = new Service();
 
   //model
   let areas: IArea[] = [];
@@ -199,6 +198,10 @@
     selectedRule.tags = event.detail.tags;
   }
 
+  function viewHistory(){
+    push("/history/" + selectedRule.id);
+  }
+
   function updateRule(rule) {
     areas.forEach((area) => {
       if (area.id == rule.areaId) {
@@ -225,7 +228,7 @@
 
 <div class="columns is-variable is-6">
   <div class="column">
-    <div class="brules-menu">
+    <div class="brules-menu box">
       <!-- <p class="title">Áreas</p> -->
 
       <input
@@ -278,6 +281,9 @@
         </div>
         <div class="column noptop">
           <div class="field is-grouped is-grouped-right">
+            <p class="control">
+              <a class="button" on:click={viewHistory}> Histórico </a>
+            </p>
             <p class="control">
               <a class="button is-light" on:click={cancelRule}> Cancelar </a>
             </p>

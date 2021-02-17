@@ -12,15 +12,16 @@
             <li>Status das Regras de Negócio</li>
             <li>Descrição das Regras em Rich Text</li>
             <li>Geração Automática de Código</li>
+            <li>Histórico</li>
         </ul>
         <h4>Work in progress</h4>
         <ul>
-            <li>Link</li>
+            <li>Copy Link</li>
             <li>Exclusão Áreas</li>
             <li>Tipo de Regras de Negócio</li>
-            <li>Histórico das Regras</li>
             <li>Comparação entre versões</li>
             <li>Tradução</li>
+            <li>Referências ou Hierarquia de Regras</li>
         </ul>
     </div>
 </section>

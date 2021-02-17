@@ -17,6 +17,7 @@ async function init(auth0Client) {
   isAuthenticated.set(isAuth);
 
   if (!isAuth) {
+    token.set();
     return;
   }
 
@@ -29,7 +30,7 @@ async function init(auth0Client) {
   }
 
   let tkn = await auth0Client.getIdTokenClaims();
-  console.log(tkn);
+  console.log('get token');
   if (tkn) {
     token.set(tkn.__raw);
   }
@@ -40,7 +41,7 @@ async function loginWithPopup(client, options) {
   popupOpen.set(true);
   try {
     await client.loginWithPopup(options);
-    isAuthenticated.set(true);
+    init(client);
 
 
   } catch (e) {
@@ -52,6 +53,7 @@ async function loginWithPopup(client, options) {
 }
 
 function logout(client) {
+  token.set();
   return client.logout();
 }
 

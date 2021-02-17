@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.13.6",
+    "dayjs": "^1.10.4",
     "imask": "^6.0.5",
     "izitoast": "^1.4.0",
     "node-sass": "^5.0.0",
