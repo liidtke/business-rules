@@ -42,6 +42,7 @@
   let selectedRule: any;
   let errorMessage: string;
   let validationFields: any[];
+  let searchContent:boolean = false;
 
   let search: string = "";
 
@@ -87,17 +88,26 @@
     search = search.toLowerCase();
 
     return areas.filter((area) => {
-      //filtra filhos
-
       if (area._hasChild === undefined) {
         area._hasChild = false;
       }
 
       if (area.rules) {
         area.rules.forEach((r) => {
+          if(!r.tags){
+            r.tags = [];
+          }
+
           r._isVisible =
+            r.id == search ||
             r.code.toLowerCase().includes(search) ||
-            r.title.toLowerCase().includes(search);
+            r.title.toLowerCase().includes(search) ||
+            r.tags.includes(search);
+
+            if(searchContent && !r._isVisible){
+              r._isVisible = r.text.includes(search);
+            }
+
         });
 
         area._hasChild = area.rules.findIndex((r) => r._isVisible) > -1;
@@ -231,12 +241,25 @@
     <div class="brules-menu box">
       <!-- <p class="title">Áreas</p> -->
 
-      <input
+      <div class="search">
+
+      <div class="control has-icons-right" >
+        <input
         class="input search"
         type="text"
         placeholder="Buscar"
         bind:value={search}
-      />
+        />
+        <span class="icon is-small is-right">
+          <i class="fas fa-search"></i>
+        </span>
+      </div>
+      <label class="checkbox">
+        <input type="checkbox" bind:checked={searchContent}>
+        Incluir Descrição
+      </label>
+
+    </div>
 
       <a class="action add-area" on:click={addArea}>Adicionar Área</a>
 
@@ -449,6 +472,11 @@
 
     input {
       margin-bottom: 0.5em;
+    }
+
+    div.search{
+      padding-bottom: 1rem;
+      
     }
 
     .add-area {

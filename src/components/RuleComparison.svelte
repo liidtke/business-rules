@@ -16,8 +16,14 @@
                 <div class="equal item">{currentRule[field] ?? ""}</div>
             {:else}
             <div class="diff">
+                {#if field=='text'}
+                <div class="old item">{@html oldRule[field]}</div>
+                <div class="new item">{@html currentRule[field]}</div>
+                {:else}
                 <div class="old item">{oldRule[field] ?? ""}</div>
                 <div class="new item">{currentRule[field] ?? ""}</div>
+                {/if}
+              
             </div>
             {/if}
         </div>
